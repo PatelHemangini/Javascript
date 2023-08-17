@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>JavaScript Statements</h1>
+    <h2>The for...in Loop</h2>
+
+    <p>Iterate (loop) over the properties of an object:</p>
+
+    <p id="demo"></p>
+
+    <script>
+        const person = { fname: "John", lname: "Doe", age: 25 };
+        let text = "";
+
+        for (let x in person) {
+            text += person[x] + " ";
+        }
+        document.write(text)
+        document.getElementById("demo").innerHTML = text;
+
+        const x = { a: 1, b: 2, c: 3 };
+        let data = "";
+        for (const y in x) {
+            data += x[y] + " "
+        }
+        document.write(data)
+
+    </script>
+</body>
+
+</html>
