@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" name="val1" id="val1">
+    <input type="text" name="val2" id="val2">
+    <input type="button" value="Button" name="btn" id="btn">
+    <div id="disp"></div>
+
+    <script>
+        document.getElementById("btn").addEventListener("click", function () {
+            let value1 = document.getElementById("val1").value;
+            let value2 = document.getElementById("val2").value;
+            let sum = parseInt(value1) + parseInt(value2);
+            // document.write("sum:", sum);
+            document.getElementById("disp").innerHTML = "<b> sum is :" + sum + "</b>"
+
+        })
+    </script>
+</body>
+
+</html>
