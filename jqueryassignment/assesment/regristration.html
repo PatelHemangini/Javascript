@@ -4,58 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Registration Form</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        .error-message {
+            color: red;
+        }
+
+        .error {
+            border: 1px solid red;
+        }
+    </style>
 </head>
 
 <body>
     <form action="post">
         <table>
             <tr>
-                <td><label for="name">First Name</label></td>
-                <td><input type="text"></td>
+                <td><label for="firstname">First Name</label></td>
+                <td>
+                    <input type="text" name="firstname">
+                    <span class="error-message" id="error-firstname"></span>
+                </td>
             </tr>
             <tr>
                 <td><label for="lastname">Last Name</label></td>
-                <td><input type="text"></td>
+                <td>
+                    <input type="text" name="lastname">
+                    <span class="error-message" id="error-lastname"></span>
+                </td>
             </tr>
             <tr>
                 <td><label for="email">Email</label></td>
-                <td><input type="email"></td>
+                <td>
+                    <input type="email" name="email">
+                    <span class="error-message" id="error-email"></span>
+                </td>
             </tr>
             <tr>
                 <td><label for="mobile">Mobile</label></td>
-                <td><input type="number"></td>
+                <td>
+                    <input type="number" name="mobile">
+                    <span class="error-message" id="error-mobile"></span>
+                </td>
             </tr>
             <tr>
                 <td><label for="gender">Gender</label></td>
                 <td>
-                    <input type="radio" name="gender">
+                    <input type="radio" name="gender" id="male" value="Male">
                     <label for="male">Male</label>
-                    <input type="radio" name="gender">
+                    <input type="radio" name="gender" id="female" value="Female">
                     <label for="female">Female</label>
+                    <span class="error-message" id="error-gender"></span>
                 </td>
             </tr>
             <tr>
                 <td><label for="dateofbirth">Date of Birth</label></td>
                 <td>
-                    <input type="date" name="" id="">
+                    <input type="date" name="dateofbirth">
+                    <span class="error-message" id="error-dateofbirth"></span>
                 </td>
             </tr>
             <tr>
                 <td><label for="address">Address</label></td>
-                <td><textarea rows="4" cols="21"></textarea></td>
+                <td>
+                    <textarea rows="4" cols="21" name="address"></textarea>
+                    <span class="error-message" id="error-address"></span>
+                </td>
             </tr>
             <tr>
                 <td><label for="city">City</label></td>
-                <td><input type="text"></td>
+                <td>
+                    <input type="text" name="city">
+                    <span class="error-message" id="error-city"></span>
+                </td>
             </tr>
             <tr>
                 <td><label for="areapin">Area PIN</label></td>
-                <td><input type="number"></td>
+                <td>
+                    <input type="number" name="areapin">
+                    <span class="error-message" id="error-areapin"></span>
+                </td>
             </tr>
             <tr>
                 <td><label for="state">State</label></td>
-                <td><input type="text"></td>
+                <td>
+                    <input type="text" name="state">
+                    <span class="error-message" id="error-state"></span>
+                </td>
             </tr>
             <tr>
                 <td><label for="qualification">Qualification</label></td>
@@ -66,6 +104,7 @@
                         <option value="mba">MBA</option>
                         <option value="bba">BBA</option>
                     </select>
+                    <span class="error-message" id="error-qualification"></span>
                 </td>
             </tr>
             <tr>
@@ -75,19 +114,115 @@
                     <label for="s1"> Computer science</label><br>
                     <input type="checkbox" id="s2" name="s2" value="Information technology">
                     <label for="s2"> Information technology</label><br>
-                    <input type="checkbox" id="s3" name="s3" value="Computer Archicture">
-                    <label for="s3"> Computer Archicture</label><br>
+                    <input type="checkbox" id="s3" name="s3" value="Computer Architecture">
+                    <label for="s3"> Computer Architecture</label><br>
+                    <span class="error-message" id="error-specialization"></span>
                 </td>
             </tr>
             <tr>
                 <td><label for="password">Password</label></td>
-                <td><input type="password"></td>
+                <td>
+                    <input type="password" name="password">
+                    <span class="error-message" id="error-password"></span>
+                </td>
             </tr>
             <tr>
-                <td><button type="button">Registered</button></td>
+                <td><button type="button" id="registerBtn">Register</button></td>
             </tr>
         </table>
     </form>
+
+    <script>
+        $(document).ready(function () {
+            // Attach blur event to each input field
+            $('input, select').blur(function () {
+                validateField($(this));
+            });
+
+            $('#registerBtn').click(function () {
+                // Perform form validation here
+                if (validateForm()) {
+                    alert('Registration successful!');
+                }
+            });
+
+            function validateForm() {
+                var isValid = true;
+
+                // Validate each field
+                $('input, select').each(function () {
+                    isValid = validateField($(this)) && isValid;
+                });
+
+                // Additional form-level validation if needed
+
+                return isValid;
+            }
+
+            function validateField(field) {
+                var fieldName = field.attr('name');
+                var errorSpan = $('#error-' + fieldName);
+                var isValid = true;
+
+                // Individual field validations
+                switch (fieldName) {
+                    case 'firstname':
+                    case 'lastname':
+                    case 'city':
+                    case 'state':
+                        var value = field.val().trim();
+                        isValid = value !== '';
+                        break;
+                    case 'email':
+                        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        isValid = emailRegex.test(field.val().trim());
+                        break;
+                    case 'mobile':
+                        var mobileRegex = /^[0-9]{10}$/;
+                        isValid = mobileRegex.test(field.val().trim());
+                        break;
+                    case 'dateofbirth':
+                        isValid = field.val().trim() !== '';
+                        break;
+                    case 'areapin':
+                        var areaPinRegex = /^[0-9]{6}$/;
+                        isValid = areaPinRegex.test(field.val().trim());
+                        break;
+                    case 'qualification':
+                        isValid = field.val() !== null;
+                        break;
+                    case 's1':
+                    case 's2':
+                    case 's3':
+                        isValid = $('input[name^="s"]:checked').length > 0;
+                        break;
+                    case 'password':
+                        isValid = field.val().trim() !== '';
+                        break;
+                }
+
+                // Display empty error message
+                
+                if (isValid) {
+                    errorSpan.text('');
+                    field.removeClass('error');
+                } else {
+                    errorSpan.text(fieldName + ' cannot be empty!');
+                    field.addClass('error');
+                }
+                 // Display validation error message
+                if (isValid) {
+                    errorSpan.text('');
+                    field.removeClass('error');
+                } else {
+                    errorSpan.text('Invalid ' + fieldName + '!');
+                    field.addClass('error');
+                }
+
+                return isValid;
+            }
+        });
+    </script>
 </body>
 
 </html>
